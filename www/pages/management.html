@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" ng-app="gis">
+
+  <head>
+
+    <title>GIS Project</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="shortcut icon" href="../image/icon/map.svg">
+
+    <link rel="stylesheet" type="text/css" href="../index.css">
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+	<script src="management.js" type="text/javascript"></script>
+
+  </head>
+
+  <body>
+
+    <div class="top">
+      <a href="../index.html"><img src="../image/map-logo.png"></a>
+      <h2>GIS Project</h2>
+    </div>
+
+    <div class="menu">
+	  <a href="../index.html"><button class="btn btn-info">Map</button></a>
+	  <a href="search.html"><button class="btn btn-info">Search</button></a>
+	  <a href="points.html"><button class="btn btn-info">Points</button></a>
+	  <a href="directions.html"><button class="btn btn-info">Directions</button></a>
+	  <a href="management.html"><button class="btn btn-info">Management</button></a>
+    </div>
+
+    <div class="points">
+       <h2>Points</h2>
+	   <select id="points">
+	   <script>
+	   
+	     var pointOptions = "";
+		 
+		 var xmlhttppoints = new XMLHttpRequest();
+		 var url = "http://localhost:8080/points/name";
+		 
+		 xmlhttppoints.onreadystatechange = function() {
+		   if (this.readyState == 4 && this.status == 200) {
+		   
+		     var json = JSON.parse(xmlhttppoints.responseText);
+			 
+			 for (var directionIndex in json) {
+			   pointOptions += "<option>" + json[directionIndex] + "</option>";
+			 }
+			 
+			 document.getElementById("points").innerHTML = pointOptions;
+		   }
+	     };
+		 
+		 xmlhttppoints.open("GET", url, true);
+		 xmlhttppoints.send();
+	  
+	   </script>
+	   </select>
+	   <input class="btn btn-primary" type="button" value="Remove" onClick="removePoint()" />
+    </div>
+	
+	<div class="startdirections">
+	  <h2>Start Directions</h2>
+	  <select id="startdirections">
+	  
+	  <script>
+	  
+	    var soptions = "";
+		
+		var xmlhttpstartdirections = new XMLHttpRequest();
+		var url = "http://localhost:8080/directions/start";
+		
+		xmlhttpstartdirections.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
+		    var json = JSON.parse(xmlhttpstartdirections.responseText);
+			for (var startDirectionIndex in json) {
+			  soptions += "<option>" + json[startDirectionIndex] + "</option>";
+			}
+			document.getElementById("startdirections").innerHTML = soptions;
+	      }
+		};
+		
+		xmlhttpstartdirections.open("GET", url, true);
+		xmlhttpstartdirections.send();
+		
+	  </script>
+	  </select>
+	  <input class="btn btn-primary" type="button" value="Remove" onClick="removeStartDirection()" />
+	</div>
+	
+	<div class="enddirections">
+	  <h2>End Directions</h2>
+	  <select id="enddirections">
+	  <script>
+	  
+	    var eoptions = "";
+		
+		var xmlhttpenddirections = new XMLHttpRequest();
+		var url = "http://localhost:8080/directions/end";
+		
+		xmlhttpenddirections.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
+		    var json = JSON.parse(xmlhttpenddirections.responseText);
+			for (var endDirectionIndex in json) {
+			  eoptions += "<option>" + json[endDirectionIndex] + "</option>";
+			}
+			document.getElementById("enddirections").innerHTML = eoptions;
+		  }
+		};
+		
+		xmlhttpenddirections.open("GET", url, true);
+		xmlhttpenddirections.send();
+	  
+	   </script>
+	   </select>
+	   <input class="btn btn-primary" type="button" value="Remove" onClick="removeEndDirection()" />
+    </div>
+
+  </body>
+</html>

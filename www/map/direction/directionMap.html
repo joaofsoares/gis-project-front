@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>GIS Project</title>
+    <link rel="stylesheet" type="text/css" href="directionMap.css">
+	<script src="directionMap.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="floating-panel">
+    <b>Start: </b>
+	<select id="start">
+	<script>
+	
+	  var startOptions = "";
+	
+	  var xmlhttpstart = new XMLHttpRequest();
+	  var url = "http://localhost:8080/directions/start";
+	  
+	  xmlhttpstart.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+		
+		  var startJson = JSON.parse(xmlhttpstart.responseText);
+		  
+		  for (var startDirectionIndex in startJson) {
+			startOptions += "<option>" + startJson[startDirectionIndex] + "</option>";
+		  }
+		  document.getElementById("start").innerHTML = startOptions;
+		}
+	  };
+	  
+	  xmlhttpstart.open("GET", url, true);
+	  xmlhttpstart.send();
+	  
+	</script>
+	</select>
+
+    <b>End: </b>
+    <select id="end">
+	<script>
+	
+	  var endOptions = "";
+	
+	  var xmlhttpend = new XMLHttpRequest();
+	  var url = "http://localhost:8080/directions/end";
+	  
+	  xmlhttpend.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+		
+		  var endJson = JSON.parse(xmlhttpend.responseText);
+		  
+		  for (var endDirectionIndex in endJson) {
+			endOptions += "<option>" + endJson[endDirectionIndex] + "</option>";
+		  }
+		  document.getElementById("end").innerHTML = endOptions;
+		}
+	  };
+	  
+	  xmlhttpend.open("GET", url, true);
+	  xmlhttpend.send();
+	  
+	</script>
+    </select>
+    </div>
+    <div id="right-panel"></div>
+    <div id="map"></div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_PUBLIC_KEY_HERE&callback=initMap">
+    </script>
+  </body>
+</html>
